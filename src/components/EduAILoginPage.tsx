@@ -11,6 +11,8 @@ import {
   Paper,
   InputAdornment,
   IconButton,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material';
 import {
   Google as GoogleIcon,
@@ -18,14 +20,18 @@ import {
   Lock as LockIcon,
   Visibility,
   VisibilityOff,
+  Person as PersonIcon,
 } from '@mui/icons-material';
 import theme from './theme'; // Import the theme
 
 export default function EduAILoginPage() {
+  const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    fullName: '',
+    agreeToTerms: false,
   });
 
   const handleInputChange = (field: string) => (
@@ -33,23 +39,32 @@ export default function EduAILoginPage() {
   ) => {
     setFormData(prev => ({
       ...prev,
-      [field]: event.target.value,
+      [field]: field === 'agreeToTerms' ? event.target.checked : event.target.value,
     }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Login submitted:', formData);
-    // Add your login logic here
+    if (isLogin) {
+      console.log('Login submitted:', formData);
+      // Add your login logic here
+    } else {
+      console.log('Sign up submitted:', formData);
+      // Add your sign up logic here
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    console.log('Google Sign In clicked');
-    // Add Google Sign In logic here
+  const handleGoogleAuth = () => {
+    console.log(`Google ${isLogin ? 'Sign In' : 'Sign Up'} clicked`);
+    // Add Google Auth logic here
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(prev => !prev);
+  };
+
+  const switchMode = () => {
+    setIsLogin(prev => !prev);
   };
 
   return (
@@ -64,6 +79,7 @@ export default function EduAILoginPage() {
           sx={{
             background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.2) 100%)',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             p: 4,
@@ -94,7 +110,7 @@ export default function EduAILoginPage() {
                 fontWeight: 600,
               }}
             >
-              Unlock Your Learning Potential
+              {isLogin ? 'Unlock Your Learning Potential' : 'Transform Your Learning Journey with AI'}
             </Typography>
             
             <Typography
@@ -106,12 +122,14 @@ export default function EduAILoginPage() {
                 fontWeight: 400,
               }}
             >
-              The Future of Assessment is Here
+              {isLogin 
+                ? 'The Future of Assessment is Here' 
+                : 'Join thousands of students embracing the future of education'}
             </Typography>
           </Box>
         </Grid>
 
-        {/* Right Panel - Login Form */}
+        {/* Right Panel - Login/Signup Form */}
         <Grid 
           item 
           xs={12} 
@@ -144,16 +162,26 @@ export default function EduAILoginPage() {
                   fontWeight: 700,
                 }}
               >
-                Welcome Back
+                {isLogin ? 'Welcome Back' : 'Create Your Account'}
               </Typography>
+              {!isLogin && (
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    color: theme.palette.text.secondary,
+                  }}
+                >
+                  Start your learning journey today
+                </Typography>
+              )}
             </Box>
 
-            {/* Google Sign In Button */}
+            {/* Google Sign In/Up Button */}
             <Button
               fullWidth
               variant="outlined"
               startIcon={<GoogleIcon />}
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleAuth}
               sx={{
                 mb: 3,
                 py: 1.5,
@@ -166,7 +194,7 @@ export default function EduAILoginPage() {
                 },
               }}
             >
-              Sign in with Google
+              {isLogin ? 'Sign in with Google' : 'Sign up with Google'}
             </Button>
 
             {/* Divider */}
@@ -184,8 +212,44 @@ export default function EduAILoginPage() {
               <Divider sx={{ flex: 1 }} />
             </Box>
 
-            {/* Login Form */}
+            {/* Login/Signup Form */}
             <Box component="form" onSubmit={handleSubmit}>
+              {/* Full Name - Only for Sign Up */}
+              {!isLogin && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography
+                    variant="body2"
+                    sx={{ 
+                      mb: 1, 
+                      fontWeight: 500, 
+                      color: theme.palette.text.primary 
+                    }}
+                  >
+                    Full Name
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={formData.fullName}
+                    onChange={handleInputChange('fullName')}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon sx={{ color: theme.palette.text.secondary }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{ 
+                      mb: 2,
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: 2,
+                      }
+                    }}
+                  />
+                </Box>
+              )}
+
               <Box sx={{ mb: 2 }}>
                 <Typography
                   variant="body2"
@@ -200,7 +264,7 @@ export default function EduAILoginPage() {
                 <TextField
                   fullWidth
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your email address"
                   value={formData.email}
                   onChange={handleInputChange('email')}
                   InputProps={{
@@ -219,7 +283,7 @@ export default function EduAILoginPage() {
                 />
               </Box>
 
-              <Box sx={{ mb: 3 }}>
+              <Box sx={{ mb: isLogin ? 3 : 2 }}>
                 <Typography
                   variant="body2"
                   sx={{ 
@@ -228,12 +292,12 @@ export default function EduAILoginPage() {
                     color: theme.palette.text.primary 
                   }}
                 >
-                  Password
+                  {isLogin ? 'Password' : 'Create Password'}
                 </Typography>
                 <TextField
                   fullWidth
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder={isLogin ? 'Enter your password' : 'Enter your password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
                   InputProps={{
@@ -260,7 +324,60 @@ export default function EduAILoginPage() {
                     }
                   }}
                  />
+                 {!isLogin && (
+                   <Typography
+                     variant="caption"
+                     sx={{
+                       display: 'block',
+                       mt: 1,
+                       color: theme.palette.text.secondary,
+                     }}
+                   >
+                     Must be at least 8 characters
+                   </Typography>
+                 )}
                </Box>
+ 
+               {/* Terms and Conditions - Only for Sign Up */}
+               {!isLogin && (
+                 <Box sx={{ mb: 3 }}>
+                   <FormControlLabel
+                     control={
+                       <Checkbox 
+                         checked={formData.agreeToTerms}
+                         onChange={handleInputChange('agreeToTerms')}
+                         size="small"
+                       />
+                     }
+                     label={
+                       <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>
+                         I agree to the {' '}
+                         <Link 
+                           href="#" 
+                           sx={{ 
+                             color: theme.palette.primary.main,
+                             textDecoration: 'none',
+                             '&:hover': { textDecoration: 'underline' }
+                           }}
+                         >
+                           Terms of Service
+                         </Link>
+                         {' '} and {' '}
+                         <Link 
+                           href="#" 
+                           sx={{ 
+                             color: theme.palette.primary.main,
+                             textDecoration: 'none',
+                             '&:hover': { textDecoration: 'underline' }
+                           }}
+                         >
+                           Privacy Policy
+                         </Link>
+                       </Typography>
+                     }
+                   />
+                 </Box>
+               )}
  
                <Button
                  type="submit"
@@ -274,24 +391,27 @@ export default function EduAILoginPage() {
                    borderRadius: 2,
                  }}
                >
-                 Log In
+                 {isLogin ? 'Log In' : 'Create Account'}
                </Button>
  
-               <Box sx={{ textAlign: 'center', mb: 3 }}>
-                 <Link
-                   href="#"
-                   sx={{
-                     color: theme.palette.primary.main,
-                     textDecoration: 'none',
-                     fontSize: '0.9rem',
-                     '&:hover': {
-                       textDecoration: 'underline',
-                     },
-                   }}
-                 >
-                   Forgot Password?
-                 </Link>
-               </Box>
+               {/* Forgot Password - Only for Login */}
+               {isLogin && (
+                 <Box sx={{ textAlign: 'center', mb: 3 }}>
+                   <Link
+                     href="#"
+                     sx={{
+                       color: theme.palette.primary.main,
+                       textDecoration: 'none',
+                       fontSize: '0.9rem',
+                       '&:hover': {
+                         textDecoration: 'underline',
+                       },
+                     }}
+                   >
+                     Forgot Password?
+                   </Link>
+                 </Box>
+               )}
  
                <Box sx={{ textAlign: 'center' }}>
                  <Typography 
@@ -300,9 +420,13 @@ export default function EduAILoginPage() {
                      color: theme.palette.text.secondary 
                    }}
                  >
-                  Don&apos;t have an account?{' '}
+                   {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
                    <Link
                      href="#"
+                     onClick={(e) => {
+                       e.preventDefault();
+                       switchMode();
+                     }}
                      sx={{
                        color: theme.palette.primary.main,
                        textDecoration: 'none',
@@ -312,7 +436,7 @@ export default function EduAILoginPage() {
                        },
                      }}
                    >
-                     Sign Up
+                     {isLogin ? 'Sign Up' : 'Log In'}
                    </Link>
                  </Typography>
                </Box>
