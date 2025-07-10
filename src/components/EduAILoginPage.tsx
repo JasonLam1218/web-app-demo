@@ -55,7 +55,11 @@ export default function EduAILoginPage() {
     <Box sx={{ minHeight: '100vh', display: 'flex' }}>
       <Grid container sx={{ minHeight: '100vh' }}>
         {/* Left Panel - Branding */}
-        <Grid size={{ xs: 12, md: 6 }}
+        <Grid
+          item
+          xs={12}
+          md={6}
+          component="div"
           sx={{
             background: 'linear-gradient(135deg, #a3e635 0%, #22c55e 100%)',
             display: 'flex',
@@ -104,7 +108,11 @@ export default function EduAILoginPage() {
         </Grid>
 
         {/* Right Panel - Login Form */}
-        <Grid size={{ xs: 12, md: 6 }}
+        <Grid
+          item
+          xs={12}
+          md={6}
+          component="div"
           sx={{
             display: 'flex',
             alignItems: 'center',
