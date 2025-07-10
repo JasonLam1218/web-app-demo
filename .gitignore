@@ -28,3 +28,4 @@ yarn-error.log*
 # Other ignored files from git status
 package-lock.json
 web-app-demo/ 
+.vercel
