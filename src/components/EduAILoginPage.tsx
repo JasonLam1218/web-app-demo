@@ -19,6 +19,7 @@ import {
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
+import theme from './theme'; // Import the theme
 
 export default function EduAILoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -61,21 +62,22 @@ export default function EduAILoginPage() {
           md={6} 
           component="div"
           sx={{
-            background: 'linear-gradient(135deg, #a3e635 0%, #22c55e 100%)',
+            background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.2) 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             p: 4,
           }}
         >
-          <Box sx={{ textAlign: 'center', maxWidth: 400 }}>
+          <Box sx={{ textAlign: 'center', maxWidth: 400, color: theme.palette.primary.dark }}>
             <Typography
               variant="h1"
               sx={{
-                color: 'white',
-                fontSize: { xs: '2rem', md: '3rem' },
+                color: theme.palette.primary.main,
+                ...theme.typography.h1,
+                fontSize: { xs: '2.5rem', md: '3rem' },
+                mb: 3,
                 fontWeight: 700,
-                mb: 4,
               }}
             >
               EduAI
@@ -84,11 +86,12 @@ export default function EduAILoginPage() {
             <Typography
               variant="h4"
               sx={{
-                color: 'white',
+                color: theme.palette.primary.main,
+                ...theme.typography.h4,
                 fontSize: { xs: '1.5rem', md: '2rem' },
-                fontWeight: 600,
                 mb: 2,
                 lineHeight: 1.2,
+                fontWeight: 600,
               }}
             >
               Unlock Your Learning Potential
@@ -97,9 +100,10 @@ export default function EduAILoginPage() {
             <Typography
               variant="body1"
               sx={{
-                color: 'rgba(255, 255, 255, 0.9)',
-                fontSize: '1.1rem',
-                fontWeight: 500,
+                color: theme.palette.primary.main,
+                ...theme.typography.body1,
+                fontSize: '1rem',
+                fontWeight: 400,
               }}
             >
               The Future of Assessment is Here
@@ -118,7 +122,7 @@ export default function EduAILoginPage() {
             alignItems: 'center',
             justifyContent: 'center',
             p: 4,
-            bgcolor: 'background.default',
+            bgcolor: theme.palette.background.default,
           }}
         >
           <Paper
@@ -127,12 +131,19 @@ export default function EduAILoginPage() {
               p: { xs: 3, md: 5 },
               maxWidth: 400,
               width: '100%',
-              bgcolor: 'background.paper',
+              bgcolor: 'transparent',
               borderRadius: 2,
             }}
           >
-            <Box sx={{ textAlign: 'center', mb: 4 }}>
-              <Typography variant="h4" sx={{ mb: 1 }}>
+            <Box sx={{ textAlign: 'left', mb: 4 }}>
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  mb: 2,
+                  color: theme.palette.text.primary,
+                  fontWeight: 700,
+                }}
+              >
                 Welcome Back
               </Typography>
             </Box>
@@ -146,11 +157,12 @@ export default function EduAILoginPage() {
               sx={{
                 mb: 3,
                 py: 1.5,
-                border: '1px solid #e5e7eb',
-                color: 'text.primary',
+                border: `1px solid ${theme.palette.divider}`,
+                color: theme.palette.text.primary,
+                borderRadius: 2,
                 '&:hover': {
-                  bgcolor: 'rgba(0, 0, 0, 0.04)',
-                  border: '1px solid #d1d5db',
+                  bgcolor: theme.palette.action.hover,
+                  border: `1px solid ${theme.palette.text.secondary}`,
                 },
               }}
             >
@@ -162,7 +174,10 @@ export default function EduAILoginPage() {
               <Divider sx={{ flex: 1 }} />
               <Typography
                 variant="body2"
-                sx={{ mx: 2, color: 'text.secondary' }}
+                sx={{ 
+                  mx: 2, 
+                  color: theme.palette.text.secondary 
+                }}
               >
                 OR
               </Typography>
@@ -174,7 +189,11 @@ export default function EduAILoginPage() {
               <Box sx={{ mb: 2 }}>
                 <Typography
                   variant="body2"
-                  sx={{ mb: 1, fontWeight: 500, color: 'text.primary' }}
+                  sx={{ 
+                    mb: 1, 
+                    fontWeight: 500, 
+                    color: theme.palette.text.primary 
+                  }}
                 >
                   Email Address
                 </Typography>
@@ -187,18 +206,27 @@ export default function EduAILoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon sx={{ color: 'text.secondary' }} />
+                        <EmailIcon sx={{ color: theme.palette.text.secondary }} />
                       </InputAdornment>
                     ),
                   }}
-                  sx={{ mb: 2 }}
+                  sx={{ 
+                    mb: 2,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    }
+                  }}
                 />
               </Box>
 
               <Box sx={{ mb: 3 }}>
                 <Typography
                   variant="body2"
-                  sx={{ mb: 1, fontWeight: 500, color: 'text.primary' }}
+                  sx={{ 
+                    mb: 1, 
+                    fontWeight: 500, 
+                    color: theme.palette.text.primary 
+                  }}
                 >
                   Password
                 </Typography>
@@ -211,7 +239,7 @@ export default function EduAILoginPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockIcon sx={{ color: 'text.secondary' }} />
+                        <LockIcon sx={{ color: theme.palette.text.secondary }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -226,6 +254,11 @@ export default function EduAILoginPage() {
                       </InputAdornment>
                     ),
                   }}
+                  sx={{ 
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                    }
+                  }}
                  />
                </Box>
  
@@ -238,6 +271,7 @@ export default function EduAILoginPage() {
                    py: 1.5,
                    fontSize: '1rem',
                    fontWeight: 600,
+                   borderRadius: 2,
                  }}
                >
                  Log In
@@ -247,7 +281,7 @@ export default function EduAILoginPage() {
                  <Link
                    href="#"
                    sx={{
-                     color: 'primary.main',
+                     color: theme.palette.primary.main,
                      textDecoration: 'none',
                      fontSize: '0.9rem',
                      '&:hover': {
@@ -260,12 +294,17 @@ export default function EduAILoginPage() {
                </Box>
  
                <Box sx={{ textAlign: 'center' }}>
-                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                 <Typography 
+                   variant="body2" 
+                   sx={{ 
+                     color: theme.palette.text.secondary 
+                   }}
+                 >
                   Don&apos;t have an account?{' '}
                    <Link
                      href="#"
                      sx={{
-                       color: 'primary.main',
+                       color: theme.palette.primary.main,
                        textDecoration: 'none',
                        fontWeight: 500,
                        '&:hover': {

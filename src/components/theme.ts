@@ -5,21 +5,41 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#22c55e', // Green color matching the design
-      dark: '#16a34a',
-      light: '#4ade80',
+      main: '#96D9C0', // light green color 
+      // Soft, muted green for primary elements
+      // Used in: Logo, headings, primary action buttons
+      
+      dark: '#51A687', // dark green 
+      // Darker green for hover states and active elements
+      
+      light: '#4ade80', // lighter green variant
+      // Lighter green for gradients, backgrounds, and subtle highlights
     },
     secondary: {
-      main: '#6b7280',
+      main: '#6b7280', // neutral gray
+      // Used for secondary text, dividers, and supporting elements
     },
     background: {
-      default: '#f8fafc',
-      paper: '#ffffff',
+      default: '#f8fafc', // very light gray/blue background
+      // Main page background, provides soft contrast
+      
+      paper: '#ffffff', // pure white
+      // Background for cards, modals, and elevated surfaces
     },
     text: {
-      primary: '#1f2937',
-      secondary: '#6b7280',
+      primary: '#1f2937', // deep gray, almost black
+      // Main text color for headings and primary content
+      
+      secondary: '#6b7280', // medium gray
+      // Used for supporting text, captions, and less important information
     },
+    // Optional: Add more color context if needed
+    action: {
+      hover: 'rgba(136, 231, 136, 0.1)', // light green hover state
+      // Subtle interaction feedback
+    },
+    divider: 'rgba(107, 114, 128, 0.2)', // light gray divider
+    // Soft dividers between sections
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
