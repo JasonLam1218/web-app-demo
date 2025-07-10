@@ -55,10 +55,10 @@ export default function EduAILoginPage() {
     <Box sx={{ minHeight: '100vh', display: 'flex' }}>
       <Grid container sx={{ minHeight: '100vh' }}>
         {/* Left Panel - Branding */}
-        <Grid
-          item
-          xs={12}
-          md={6}
+        <Grid 
+          item 
+          xs={12} 
+          md={6} 
           component="div"
           sx={{
             background: 'linear-gradient(135deg, #a3e635 0%, #22c55e 100%)',
@@ -108,9 +108,9 @@ export default function EduAILoginPage() {
         </Grid>
 
         {/* Right Panel - Login Form */}
-        <Grid
-          item
-          xs={12}
+        <Grid 
+          item 
+          xs={12} 
           md={6}
           component="div"
           sx={{
@@ -226,61 +226,61 @@ export default function EduAILoginPage() {
                       </InputAdornment>
                     ),
                   }}
-                />
-              </Box>
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mb: 2,
-                  py: 1.5,
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                }}
-              >
-                Log In
-              </Button>
-
-              <Box sx={{ textAlign: 'center', mb: 3 }}>
-                <Link
-                  href="#"
-                  sx={{
-                    color: 'primary.main',
-                    textDecoration: 'none',
-                    fontSize: '0.9rem',
-                    '&:hover': {
-                      textDecoration: 'underline',
-                    },
-                  }}
-                >
-                  Forgot Password?
-                </Link>
-              </Box>
-
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                 />
+               </Box>
+ 
+               <Button
+                 type="submit"
+                 fullWidth
+                 variant="contained"
+                 sx={{
+                   mb: 2,
+                   py: 1.5,
+                   fontSize: '1rem',
+                   fontWeight: 600,
+                 }}
+               >
+                 Log In
+               </Button>
+ 
+               <Box sx={{ textAlign: 'center', mb: 3 }}>
+                 <Link
+                   href="#"
+                   sx={{
+                     color: 'primary.main',
+                     textDecoration: 'none',
+                     fontSize: '0.9rem',
+                     '&:hover': {
+                       textDecoration: 'underline',
+                     },
+                   }}
+                 >
+                   Forgot Password?
+                 </Link>
+               </Box>
+ 
+               <Box sx={{ textAlign: 'center' }}>
+                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   Don&apos;t have an account?{' '}
-                  <Link
-                    href="#"
-                    sx={{
-                      color: 'primary.main',
-                      textDecoration: 'none',
-                      fontWeight: 500,
-                      '&:hover': {
-                        textDecoration: 'underline',
-                      },
-                    }}
-                  >
-                    Sign Up
-                  </Link>
-                </Typography>
-              </Box>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-}
+                   <Link
+                     href="#"
+                     sx={{
+                       color: 'primary.main',
+                       textDecoration: 'none',
+                       fontWeight: 500,
+                       '&:hover': {
+                         textDecoration: 'underline',
+                       },
+                     }}
+                   >
+                     Sign Up
+                   </Link>
+                 </Typography>
+               </Box>
+             </Box>
+           </Paper>
+         </Grid>
+       </Grid>
+     </Box>
+   );
+ }
