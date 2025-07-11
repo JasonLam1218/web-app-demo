@@ -133,7 +133,7 @@ export default function EmailVerificationModal({
           </Typography>
           
           <Typography variant="body2" color="text.secondary" mb={2}>
-            We've sent a 6-digit verification code to
+            We&apos;ve sent a 6-digit verification code to
           </Typography>
         </Box>
         
@@ -183,7 +183,7 @@ export default function EmailVerificationModal({
         
         <Box sx={{ textAlign: 'center' }}>
           <Typography variant="body2" color="text.secondary">
-            Didn't receive the code? {
+            Didn&apos;t receive the code? {
               timeLeft > 0 
                 ? `Resend in ${formatTimeLeft()}`
                 : (
