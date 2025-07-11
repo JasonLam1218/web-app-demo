@@ -13,6 +13,7 @@ import {
   IconButton,
   Checkbox,
   FormControlLabel,
+  useTheme,
 } from '@mui/material';
 import {
   Google as GoogleIcon,
@@ -22,9 +23,11 @@ import {
   VisibilityOff,
   Person as PersonIcon,
 } from '@mui/icons-material';
-import theme from './theme'; // Import the theme
+import { useRouter } from 'next/navigation';
 
 export default function EduAILoginPage() {
+  const theme = useTheme();
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,6 +68,10 @@ export default function EduAILoginPage() {
 
   const switchMode = () => {
     setIsLogin(prev => !prev);
+  };
+
+  const handleForgotPassword = () => {
+    router.push('/forgot-password');
   };
 
   return (
@@ -399,6 +406,7 @@ export default function EduAILoginPage() {
                  <Box sx={{ textAlign: 'center', mb: 3 }}>
                    <Link
                      href="#"
+                     onClick={handleForgotPassword}
                      sx={{
                        color: theme.palette.primary.main,
                        textDecoration: 'none',
@@ -420,7 +428,7 @@ export default function EduAILoginPage() {
                      color: theme.palette.text.secondary 
                    }}
                  >
-                   {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
+                   {isLogin ? "Don&apos;t have an account?" : "Already have an account?"}{' '}
                    <Link
                      href="#"
                      onClick={(e) => {
@@ -446,4 +454,4 @@ export default function EduAILoginPage() {
        </Grid>
      </Box>
    );
- }
+ } 
