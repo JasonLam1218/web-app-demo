@@ -1,5 +1,14 @@
-import EduAILoginPage from '@/components/EduAILoginPage';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
-  return <EduAILoginPage />;
+  const router = useRouter();
+  
+  useEffect(() => {
+    router.push('/login');
+  }, [router]);
+  
+  return null;
 }

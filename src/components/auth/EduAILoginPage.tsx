@@ -11,6 +11,7 @@ import {
   Paper,
   InputAdornment,
   IconButton,
+  useTheme,
 } from '@mui/material';
 import {
   Google as GoogleIcon,
@@ -19,9 +20,11 @@ import {
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
-import theme from './theme'; // Import the theme
+import { useRouter } from 'next/navigation';
 
 export default function EduAILoginPage() {
+  const theme = useTheme();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -50,6 +53,10 @@ export default function EduAILoginPage() {
 
   const togglePasswordVisibility = () => {
     setShowPassword(prev => !prev);
+  };
+
+  const handleForgotPassword = () => {
+    router.push('/forgot-password');
   };
 
   return (
@@ -280,6 +287,7 @@ export default function EduAILoginPage() {
                <Box sx={{ textAlign: 'center', mb: 3 }}>
                  <Link
                    href="#"
+                   onClick={handleForgotPassword}
                    sx={{
                      color: theme.palette.primary.main,
                      textDecoration: 'none',
@@ -322,4 +330,4 @@ export default function EduAILoginPage() {
        </Grid>
      </Box>
    );
- }
+ } 
