@@ -20,7 +20,8 @@ export const comparePassword = async (password: string, hashedPassword: string) 
 export const verifyAuthToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (error: any) { // Explicitly type error as any
+  } catch (error: unknown) { // Changed type to unknown
+    console.error('Error verifying token:', error); // Log error to ensure usage
     return null;
   }
 };

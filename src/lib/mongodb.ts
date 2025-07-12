@@ -20,7 +20,7 @@ if (!global.mongoose) {
   global.mongoose = { conn: null, promise: null };
 }
 
-let cached = global.mongoose; // Now 'cached' will definitely be of type MongooseCache
+const cached = global.mongoose; // Changed from let to const
 
 async function connectDB() {
   if (cached.conn) {
