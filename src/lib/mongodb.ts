@@ -3,26 +3,18 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-interface MongooseCache {
-  conn: mongoose.Connection | null;
-  promise: Promise<mongoose.Connection> | null;
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
 }
 
-declare global {
-  var mongoose: MongooseCache | undefined;
-}
-
-const cached = global.mongoose || { conn: null, promise: null };
-
-if (!global.mongoose) {
-  global.mongoose = cached;
-}
-
-async function connectDB(): Promise<mongoose.Connection> {
+async function connectDB() {
   if (cached.conn) {
+    console.log('Using existing database connection');
     return cached.conn;
   }
 
@@ -32,19 +24,11 @@ async function connectDB(): Promise<mongoose.Connection> {
     };
 
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      console.log('✅ MongoDB connected successfully');
-      return mongoose.connection;
+      console.log('MongoDB Connected!'); // Add this line
+      return mongoose;
     });
   }
-
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    console.error('❌ MongoDB connection failed:', e);
-    throw e;
-  }
-
+  cached.conn = await cached.promise;
   return cached.conn;
 }
 

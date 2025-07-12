@@ -46,14 +46,68 @@ export default function EduAILoginPage() {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (isLogin) {
       console.log('Login submitted:', formData);
-      // Add your login logic here
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log('Login successful:', data);
+          // Store token (e.g., in localStorage or http-only cookie)
+          // For simplicity, we'll redirect directly for now.
+          router.push('/dashboard'); // Redirect to dashboard after successful login
+        } else {
+          console.error('Login failed:', data.message);
+          alert(data.message || 'Login failed.');
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        alert('An unexpected error occurred. Please try again.');
+      }
     } else {
       console.log('Sign up submitted:', formData);
       // Add your sign up logic here
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            fullName: formData.fullName,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log('Registration successful:', data);
+          // Optionally, redirect to a verification page or login page
+          router.push('/login'); // Redirect to login after successful signup
+        } else {
+          console.error('Registration failed:', data.message);
+          // Show error message to the user
+          alert(data.message || 'Registration failed.');
+        }
+      } catch (error) {
+        console.error('Error during registration:', error);
+        alert('An unexpected error occurred. Please try again.');
+      }
     }
   };
 

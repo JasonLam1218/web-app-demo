@@ -40,9 +40,31 @@ export default function EmailVerificationModal({
     return () => clearInterval(timer);
   }, [open]);
   
-  const handleResendCode = () => {
+  const handleResendCode = async () => {
     setTimeLeft(60);
     console.log('Resending verification code to:', email);
+    try {
+      const response = await fetch('/api/auth/verify-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Resend successful:', data.message);
+        alert('Verification code re-sent!');
+      } else {
+        console.error('Resend failed:', data.message);
+        alert(data.message || 'Failed to re-send verification code.');
+      }
+    } catch (error) {
+      console.error('Error during resend:', error);
+      alert('An unexpected error occurred during resend. Please try again.');
+    }
   };
 
   const handleInputChange = (index: number, value: string) => {
@@ -66,11 +88,32 @@ export default function EmailVerificationModal({
     }
   };
   
-  const handleVerifyEmail = () => {
+  const handleVerifyEmail = async () => {
     const code = verificationCode.join('');
     console.log('Verifying email with code:', code);
-    // Add verification logic here
-    onClose();
+    try {
+      const response = await fetch('/api/auth/verify-email', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Email verification successful:', data.message);
+        alert('Email verified successfully!');
+        onClose();
+      } else {
+        console.error('Email verification failed:', data.message);
+        alert(data.message || 'Email verification failed.');
+      }
+    } catch (error) {
+      console.error('Error during email verification:', error);
+      alert('An unexpected error occurred during email verification. Please try again.');
+    }
   };
   
   // Focus the current input field

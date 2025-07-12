@@ -26,11 +26,33 @@ export default function ForgotPasswordPage() {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const theme = useTheme();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     console.log('Forgot password submitted for:', email);
     // Show verification modal instead of navigation
-    setShowVerificationModal(true);
+    try {
+      const response = await fetch('/api/auth/verify-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Verification code request successful:', data.message);
+        alert('Verification code sent to your email.');
+        setShowVerificationModal(true);
+      } else {
+        console.error('Verification code request failed:', data.message);
+        alert(data.message || 'Failed to send verification code.');
+      }
+    } catch (error) {
+      console.error('Error during verification code request:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
   };
 
   const handleBackToSignIn = () => {
