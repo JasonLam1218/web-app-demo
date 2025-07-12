@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -7,8 +7,8 @@ if (!MONGODB_URI) {
 }
 
 interface MongooseCache {
-  conn: mongoose.Connection | null; // Change type from Mongoose to mongoose.Connection
-  promise: Promise<mongoose.Connection> | null; // Change type from Mongoose to mongoose.Connection
+  conn: mongoose.Connection | null;
+  promise: Promise<mongoose.Connection> | null;
 }
 
 declare global {
@@ -22,7 +22,7 @@ if (!global.mongoose) {
 
 const cached = global.mongoose;
 
-async function connectDB(): Promise<mongoose.Connection> { // Specify return type
+async function connectDB(): Promise<mongoose.Connection> {
   if (cached.conn) {
     console.log('Using existing database connection');
     return cached.conn;
@@ -35,7 +35,7 @@ async function connectDB(): Promise<mongoose.Connection> { // Specify return typ
 
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongooseInstance) => {
       console.log('MongoDB Connected!');
-      return mongooseInstance.connection; // Return the connection object
+      return mongooseInstance.connection;
     });
   }
   cached.conn = await cached.promise;
