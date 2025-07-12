@@ -7,7 +7,16 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Define public paths that do not require authentication
-  const publicPaths = ['/login', '/register', '/forgot-password', '/api/auth/register', '/api/auth/login', '/api/auth/verify-email', '/api/test-db'];
+  const publicPaths = [
+    '/', 
+    '/login', 
+    '/register', 
+    '/forgot-password', 
+    '/api/auth/register', 
+    '/api/auth/login', 
+    '/api/auth/verify-email', 
+    '/api/test-db'
+  ];
 
   // Allow access to public paths
   if (publicPaths.some(path => pathname.startsWith(path))) {
@@ -39,6 +48,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public folder files
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*) ',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-}; 
+};
