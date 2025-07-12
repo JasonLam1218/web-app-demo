@@ -12,7 +12,7 @@ export interface UserProfileType {
   user: string;
   bio?: string;
   avatar?: string;
-  preferences?: { [key: string]: any };
+  preferences?: Record<string, unknown>; // Changed from { [key: string]: any } to Record<string, unknown>
   createdAt: string;
   updatedAt: string;
 } 

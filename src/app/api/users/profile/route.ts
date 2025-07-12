@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { getUserIdFromToken } from '@/lib/auth';
+import { UserType } from '@/types/user';
 
 export async function GET(request: NextRequest) {
   await connectDB();
@@ -37,10 +38,10 @@ export async function PATCH(request: NextRequest) {
 
     // Only allow specific fields to be updated
     const allowedUpdates = ['fullName'];
-    const actualUpdates: { [key: string]: any } = {};
+    const actualUpdates: Partial<UserType> = {}; // Use Partial<UserType> for better typing
     for (const key of allowedUpdates) {
       if (updates[key] !== undefined) {
-        actualUpdates[key] = updates[key];
+        actualUpdates[key as keyof UserType] = updates[key]; // Cast key to keyof UserType
       }
     }
 

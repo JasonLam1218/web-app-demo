@@ -4,7 +4,7 @@ export interface IUserProfile extends Document {
   user: Types.ObjectId; // Reference to the User model
   bio?: string;
   avatar?: string;
-  preferences?: { [key: string]: any };
+  preferences?: Map<string, unknown>; // Changed from Map<string, any> to Map<string, unknown>
   // Add any other profile-specific fields here
   createdAt: Date;
   updatedAt: Date;

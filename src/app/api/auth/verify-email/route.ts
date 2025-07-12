@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
-import { verifyAuthToken } from '@/lib/auth';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'EduAI';
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 export async function POST(request: NextRequest) {
   await connectDB();
@@ -23,16 +21,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
 
-    // Generate a 6-digit verification code
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    const verificationCodeExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    const verificationCodeExpires = new Date(Date.now() + 10 * 60 * 1000);
 
     user.verificationCode = verificationCode;
     user.verificationCodeExpires = verificationCodeExpires;
     await user.save();
 
-    // Send email
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: `${APP_NAME} <onboarding@resend.dev>`,
       to: [email],
       subject: 'Verify your email address',
@@ -54,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ message: 'Verification code sent successfully' }, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Verify email POST error:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
@@ -90,7 +86,7 @@ export async function PATCH(request: NextRequest) {
     await user.save();
 
     return NextResponse.json({ message: 'Email verified successfully' }, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Verify email PATCH error:', error);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }

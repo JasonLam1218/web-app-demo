@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -6,11 +6,21 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-let cached = (global as any).mongoose;
-
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+interface MongooseCache {
+  conn: Mongoose | null;
+  promise: Promise<Mongoose> | null;
 }
+
+declare global {
+  var mongoose: MongooseCache; // Make it non-optional here since we will ensure it's initialized
+}
+
+// Initialize global.mongoose if it doesn't exist
+if (!global.mongoose) {
+  global.mongoose = { conn: null, promise: null };
+}
+
+let cached = global.mongoose; // Now 'cached' will definitely be of type MongooseCache
 
 async function connectDB() {
   if (cached.conn) {
@@ -23,9 +33,9 @@ async function connectDB() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      console.log('MongoDB Connected!'); // Add this line
-      return mongoose;
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongooseInstance) => {
+      console.log('MongoDB Connected!');
+      return mongooseInstance;
     });
   }
   cached.conn = await cached.promise;

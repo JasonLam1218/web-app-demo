@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import User from '@/models/User';
-import connectDB from '@/lib/mongodb';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server'; // Re-add NextRequest import
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
@@ -22,7 +20,7 @@ export const comparePassword = async (password: string, hashedPassword: string) 
 export const verifyAuthToken = (token: string) => {
   try {
     return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
+  } catch (error: any) { // Explicitly type error as any
     return null;
   }
 };
