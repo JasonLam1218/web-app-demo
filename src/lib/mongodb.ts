@@ -7,12 +7,12 @@ if (!MONGODB_URI) {
 }
 
 interface MongooseCache {
-  conn: Mongoose | null;
-  promise: Promise<Mongoose> | null;
+  conn: mongoose.Connection | null; // Change type from Mongoose to mongoose.Connection
+  promise: Promise<mongoose.Connection> | null; // Change type from Mongoose to mongoose.Connection
 }
 
 declare global {
-  var mongoose: MongooseCache; // Make it non-optional here since we will ensure it's initialized
+  var mongoose: MongooseCache;
 }
 
 // Initialize global.mongoose if it doesn't exist
@@ -20,9 +20,9 @@ if (!global.mongoose) {
   global.mongoose = { conn: null, promise: null };
 }
 
-const cached = global.mongoose; // Changed from let to const
+const cached = global.mongoose;
 
-async function connectDB() {
+async function connectDB(): Promise<mongoose.Connection> { // Specify return type
   if (cached.conn) {
     console.log('Using existing database connection');
     return cached.conn;
@@ -35,7 +35,7 @@ async function connectDB() {
 
     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongooseInstance) => {
       console.log('MongoDB Connected!');
-      return mongooseInstance;
+      return mongooseInstance.connection; // Return the connection object
     });
   }
   cached.conn = await cached.promise;
