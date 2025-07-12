@@ -8,13 +8,13 @@ export async function middleware(request: NextRequest) {
 
   // Define public paths that do not require authentication
   const publicPaths = [
-    '/', 
-    '/login', 
-    '/register', 
-    '/forgot-password', 
-    '/api/auth/register', 
-    '/api/auth/login', 
-    '/api/auth/verify-email', 
+    '/',
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/api/auth/register',
+    '/api/auth/login',
+    '/api/auth/verify-email',
     '/api/test-db'
   ];
 
@@ -25,12 +25,17 @@ export async function middleware(request: NextRequest) {
 
   // Verify token for protected paths
   if (token) {
-    const decoded = verifyAuthToken(token);
-    if (decoded) {
-      // Token is valid, continue to the requested page
-      return NextResponse.next();
-    } else {
-      // Invalid token, redirect to login
+    try {
+      const decoded = verifyAuthToken(token);
+      if (decoded) {
+        // Token is valid, continue to the requested page
+        return NextResponse.next();
+      } else {
+        // Invalid token, redirect to login
+        return NextResponse.redirect(new URL('/login', request.url));
+      }
+    } catch (error) {
+      // Error verifying token, redirect to login
       return NextResponse.redirect(new URL('/login', request.url));
     }
   }
