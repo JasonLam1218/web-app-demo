@@ -8,9 +8,10 @@ import {
   Paper,
   TextField,
   Link,
+  useTheme,
 } from '@mui/material';
 import { Email as EmailIcon } from '@mui/icons-material';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 
 interface EmailVerificationModalProps {
   open: boolean;
@@ -26,6 +27,7 @@ export default function EmailVerificationModal({
   const [verificationCode, setVerificationCode] = useState<string[]>(Array(6).fill(''));
   const [currentInputIndex, setCurrentInputIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
+  const theme = useTheme();
   
   // Countdown timer
   useEffect(() => {

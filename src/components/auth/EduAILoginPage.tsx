@@ -78,10 +78,10 @@ export default function EduAILoginPage() {
     <Box sx={{ minHeight: '100vh', display: 'flex' }}>
       <Grid container sx={{ minHeight: '100vh' }}>
         {/* Left Panel - Branding */}
-        <Grid 
-          item 
-          xs={12} 
-          md={6} 
+        <Grid
+          item
+          xs={12}
+          md={6}
           component="div"
           sx={{
             background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.2) 100%)',
@@ -137,9 +137,9 @@ export default function EduAILoginPage() {
         </Grid>
 
         {/* Right Panel - Login/Signup Form */}
-        <Grid 
-          item 
-          xs={12} 
+        <Grid
+          item
+          xs={12}
           md={6}
           component="div"
           sx={{
@@ -428,7 +428,7 @@ export default function EduAILoginPage() {
                      color: theme.palette.text.secondary 
                    }}
                  >
-                   {isLogin ? "Don&apos;t have an account?" : "Already have an account?"}{' '}
+                   {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
                    <Link
                      href="#"
                      onClick={(e) => {

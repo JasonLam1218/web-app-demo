@@ -9,13 +9,14 @@ import {
   Paper,
   InputAdornment,
   Link,
+  useTheme,
 } from '@mui/material';
 import {
   Email as EmailIcon,
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import theme from '@/lib/theme';
+// import theme from '@/lib/theme';
 // Reimport with explicit path
 import EmailVerificationModal from '@/components/auth/EmailVerificationModal';
 
@@ -23,6 +24,7 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const theme = useTheme();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -71,7 +73,7 @@ export default function ForgotPasswordPage() {
           elevation={0}
           sx={{
             p: { xs: 3, md: 5 },
-            bgcolor: 'white',
+            bgcolor: theme.palette.background.paper,
             borderRadius: 2,
           }}
         >

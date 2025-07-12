@@ -1,67 +1,56 @@
 'use client';
-import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+import { createTheme} from '@mui/material/styles';
+
+const createAppTheme = (mode: 'light' | 'dark' ) => createTheme({
   palette: {
-    mode: 'light',
+    mode,
     primary: {
-      main: '#96D9C0', // light green color 
-      // Soft, muted green for primary elements
-      // Used in: Logo, headings, primary action buttons
-      
-      dark: '#51A687', // dark green 
-      // Darker green for hover states and active elements
-      
+      main: '#96D9C0', // light green color
+      dark: '#51A687', // dark green
       light: '#4ade80', // lighter green variant
-      // Lighter green for gradients, backgrounds, and subtle highlights
     },
     secondary: {
       main: '#6b7280', // neutral gray
-      // Used for secondary text, dividers, and supporting elements
     },
     background: {
-      default: '#f8fafc', // very light gray/blue background
-      // Main page background, provides soft contrast
-      
-      paper: '#ffffff', // pure white
-      // Background for cards, modals, and elevated surfaces
+      default: mode === 'light' ? '#f8fafc' : '#121212', // Dynamic background
+      paper: mode === 'light' ? '#ffffff' : '#1e1e1e', // Dynamic paper background
     },
     text: {
-      primary: '#1f2937', // deep gray, almost black
-      // Main text color for headings and primary content
-      
-      secondary: '#6b7280', // medium gray
-      // Used for supporting text, captions, and less important information
+      primary: mode === 'light' ? '#1f2937' : '#ffffff', // Dynamic text color
+      secondary: mode === 'light' ? '#6b7280' : 'rgba(255, 255, 255, 0.7)', // Dynamic secondary text
     },
-    // Optional: Add more color context if needed
     action: {
-      hover: 'rgba(136, 231, 136, 0.1)', // light green hover state
-      // Subtle interaction feedback
+      hover: mode === 'light' 
+        ? 'rgba(136, 231, 136, 0.1)' 
+        : 'rgba(255, 255, 255, 0.08)', // Dynamic hover state
     },
-    divider: 'rgba(107, 114, 128, 0.2)', // light gray divider
-    // Soft dividers between sections
+    divider: mode === 'light' 
+      ? 'rgba(107, 114, 128, 0.2)' 
+      : 'rgba(255, 255, 255, 0.12)', // Dynamic divider
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
       fontSize: '2.5rem',
       fontWeight: 700,
-      color: '#1f2937',
+      color: mode === 'light' ? '#1f2937' : '#ffffff',
     },
     h2: {
       fontSize: '2rem',
       fontWeight: 600,
-      color: '#1f2937',
+      color: mode === 'light' ? '#1f2937' : '#ffffff',
     },
     h4: {
       fontSize: '1.5rem',
       fontWeight: 600,
-      color: '#1f2937',
+      color: mode === 'light' ? '#1f2937' : '#ffffff',
     },
     body1: {
       fontSize: '1rem',
       lineHeight: 1.6,
-      color: '#4b5563',
+      color: mode === 'light' ? '#4b5563' : 'rgba(255, 255, 255, 0.87)',
     },
   },
   components: {
@@ -77,7 +66,9 @@ const theme = createTheme({
         contained: {
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(34, 197, 94, 0.4)',
+            boxShadow: mode === 'light' 
+              ? '0 4px 12px rgba(34, 197, 94, 0.4)' 
+              : '0 4px 12px rgba(150, 217, 192, 0.4)',
           },
         },
       },
@@ -100,4 +91,4 @@ const theme = createTheme({
   },
 });
 
-export default theme; 
+export default createAppTheme;
