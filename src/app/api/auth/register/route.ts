@@ -4,9 +4,9 @@ import User from '@/models/User';
 import { hashPassword, generateAuthToken } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
-  await connectDB();
-
   try {
+    await connectDB();
+    
     const { email, password, fullName } = await request.json();
 
     if (!email || !password || !fullName) {
