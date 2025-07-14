@@ -14,6 +14,8 @@ import {
   Checkbox,
   FormControlLabel,
   useTheme,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import {
   Google as GoogleIcon,
@@ -28,6 +30,9 @@ import { useRouter } from 'next/navigation';
 export default function EduAILoginPage() {
   const theme = useTheme();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -48,6 +53,10 @@ export default function EduAILoginPage() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null);
+
     if (isLogin) {
       console.log('Login submitted:', formData);
       try {
@@ -66,16 +75,24 @@ export default function EduAILoginPage() {
 
         if (response.ok) {
           console.log('Login successful:', data);
+          setSuccess("Login successful!");
+          setError(null);
           // Store token (e.g., in localStorage or http-only cookie)
           // For simplicity, we'll redirect directly for now.
-          router.push('/dashboard'); // Redirect to dashboard after successful login
+          setTimeout(() => {
+            router.push('/dashboard');
+          }, 500); // 0.5 second delay
         } else {
           console.error('Login failed:', data.message);
-          alert(data.message || 'Login failed.');
+          setError(data.message || 'Login failed.');
+          setSuccess(null);
         }
       } catch (error) {
         console.error('Error during login:', error);
-        alert('An unexpected error occurred. Please try again.');
+        setError('An unexpected error occurred. Please try again.');
+        setSuccess(null);
+      } finally {
+        setIsLoading(false);
       }
     } else {
       console.log('Sign up submitted:', formData);
@@ -98,15 +115,20 @@ export default function EduAILoginPage() {
         if (response.ok) {
           console.log('Registration successful:', data);
           // Optionally, redirect to a verification page or login page
+          setError(null);
+          setSuccess("Registration successful!");
           router.push('/login'); // Redirect to login after successful signup
         } else {
           console.error('Registration failed:', data.message);
           // Show error message to the user
-          alert(data.message || 'Registration failed.');
+          setError(data.message || 'Registration failed.');
+          setSuccess(null);
         }
       } catch (error) {
         console.error('Error during registration:', error);
         alert('An unexpected error occurred. Please try again.');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -235,6 +257,18 @@ export default function EduAILoginPage() {
                   Start your learning journey today
                 </Typography>
               )}
+
+              {error && (
+                  <Alert severity="error" sx={{ mb: 1, mt: 2}}>
+                    {error}
+                  </Alert>
+                )}
+
+                {success && (
+                  <Alert severity="success" sx={{ mb: 1, mt: 2 }}>
+                    {success}
+                  </Alert>
+                )}
             </Box>
 
             {/* Google Sign In/Up Button */}
@@ -294,6 +328,7 @@ export default function EduAILoginPage() {
                     placeholder="Enter your full name"
                     value={formData.fullName}
                     onChange={handleInputChange('fullName')}
+                    disabled={isLoading}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -328,6 +363,7 @@ export default function EduAILoginPage() {
                   placeholder="Enter your email address"
                   value={formData.email}
                   onChange={handleInputChange('email')}
+                  disabled={isLoading}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -361,6 +397,7 @@ export default function EduAILoginPage() {
                   placeholder={isLogin ? 'Enter your password' : 'Enter your password'}
                   value={formData.password}
                   onChange={handleInputChange('password')}
+                  disabled={isLoading}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -444,6 +481,14 @@ export default function EduAILoginPage() {
                  type="submit"
                  fullWidth
                  variant="contained"
+                 // disable button if loading or not agree to terms
+                 disabled={
+                  isLoading || 
+                  !formData.email.trim() || 
+                  !formData.password.trim() ||
+                  (!isLogin && !formData.agreeToTerms) ||
+                  (!isLogin && !formData.fullName.trim())
+                }
                  sx={{
                    mb: 2,
                    py: 1.5,
@@ -452,7 +497,15 @@ export default function EduAILoginPage() {
                    borderRadius: 2,
                  }}
                >
-                 {isLogin ? 'Log In' : 'Create Account'}
+                 {/* {isLogin ? 'Log In' : 'Create Account'} */}
+                 {isLoading ? (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <CircularProgress size={20} color="inherit" />
+                      {isLogin ? 'Signing In...' : 'Creating Account...'}
+                    </Box>
+                  ) : (
+                    isLogin ? 'Log In' : 'Create Account'
+                  )}
                </Button>
  
                {/* Forgot Password - Only for Login */}
