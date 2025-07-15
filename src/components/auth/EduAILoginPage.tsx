@@ -27,6 +27,8 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
+const API_BASE = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+
 export default function EduAILoginPage() {
   const theme = useTheme();
   const router = useRouter();
@@ -60,7 +62,7 @@ export default function EduAILoginPage() {
     if (isLogin) {
       console.log('Login submitted:', formData);
       try {
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch(`${API_BASE}/api/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +100,7 @@ export default function EduAILoginPage() {
       console.log('Sign up submitted:', formData);
       // Add your sign up logic here
       try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +111,7 @@ export default function EduAILoginPage() {
             fullName: formData.fullName,
           }),
         });
-
+        console.log('Registration response:', response);
         const data = await response.json();
 
         if (response.ok) {
