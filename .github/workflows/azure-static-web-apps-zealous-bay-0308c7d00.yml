@@ -18,27 +18,23 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
-          lfs: true  # Enable if you have large files; helps with upload timeouts
-      - name: Clean Artifacts (Optimize Size)
-        run: |
-          rm -rf node_modules api/node_modules .next api/dist  # Remove heavy dirs before build to reduce artifact size
+          lfs: false
+      - name: Clean Artifacts
+        run: rm -rf node_modules api/node_modules .next api/dist
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_BAY_0308C7D00 }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-          # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
-          api_location: "api" # Api source code path - set to build and deploy Functions
-          output_location: "out" # Built app content directory - matches your static export folder
-          skip_api_build: false  # Build the API (compiles TS in api)
-          skip_app_build: false  # Build the app (runs npm run build)
-          app_build_command: "npm run build"  # Custom command for frontend build
-          api_build_command: "cd api && npm run build"  # Custom command for API build (compiles TS to dist)
-          ###### End of Repository/Build Configurations ######
+          app_location: "/"
+          api_location: "api"  # Enable API folder
+          output_location: "out"
+          skip_api_build: false  # Build APIs
+          skip_app_build: false
+          app_build_command: "npm run build"
+          api_build_command: "cd api && npm install && npx tsc"  # Compile API TS
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
