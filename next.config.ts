@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  trailingSlash: true,
   experimental: {
     // Remove appDir if present - not needed in Next.js 15
   },

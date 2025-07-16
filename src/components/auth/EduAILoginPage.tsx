@@ -60,7 +60,7 @@ export default function EduAILoginPage() {
     if (isLogin) {
       console.log('Login submitted:', formData);
       try {
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch(`/api/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function EduAILoginPage() {
             fullName: formData.fullName,
           }),
         });
-
+        console.log('Registration response:', response);
         const data = await response.json();
 
         if (response.ok) {
