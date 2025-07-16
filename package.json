@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.1",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
     "@emotion/sheet": "^1.4.0",
-    "@emotion/styled": "^11.11.1",
+    "@emotion/styled": "^11.14.1",
     "@emotion/utils": "^1.4.2",
-    "@mui/icons-material": "^5.15.20",
-    "@mui/material": "^5.15.20",
+    "@mui/icons-material": "^5.18.0",
+    "@mui/material": "^5.18.0",
     "@mui/material-nextjs": "^7.2.0",
     "bcryptjs": "^3.0.2",
     "ioredis": "^5.6.1",
@@ -23,21 +23,21 @@
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.3",
     "next": "15.3.5",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "redis": "^5.6.0",
     "resend": "^4.6.0"
   },
   "devDependencies": {
     "@azure/static-web-apps-cli": "^2.0.6",
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.1",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@types/node": "^20.19.8",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.31.0",
     "eslint-config-next": "15.3.5",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@8.15.5"
 }
