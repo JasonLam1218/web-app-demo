@@ -58,7 +58,7 @@ export default function EduAILoginPage() {
     setSuccess(null);
 
     if (isLogin) {
-      console.log('Login submitted:', formData);
+      console.log('Login submitted');
       try {
         const response = await fetch(`/api/auth/login`, {
           method: 'POST',
@@ -95,7 +95,7 @@ export default function EduAILoginPage() {
         setIsLoading(false);
       }
     } else {
-      console.log('Sign up submitted:', formData);
+      console.log('Sign up submitted');
       // Add your sign up logic here
       try {
         const response = await fetch('/api/auth/register', {
@@ -109,7 +109,6 @@ export default function EduAILoginPage() {
             fullName: formData.fullName,
           }),
         });
-        console.log('Registration response:', response);
         const data = await response.json();
 
         if (response.ok) {
@@ -117,7 +116,10 @@ export default function EduAILoginPage() {
           // Optionally, redirect to a verification page or login page
           setError(null);
           setSuccess("Registration successful!");
-          router.push('/login'); // Redirect to login after successful signup
+          // router.push('/login'); // Redirect to login after successful signup
+          setTimeout(() => {
+            router.push('/login');
+          }, 1000); 
         } else {
           console.error('Registration failed:', data.message);
           // Show error message to the user

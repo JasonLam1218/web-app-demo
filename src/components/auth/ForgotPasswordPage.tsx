@@ -10,28 +10,33 @@ import {
   InputAdornment,
   Link,
   useTheme,
+  Alert,
 } from '@mui/material';
 import {
   Email as EmailIcon,
   ArrowBack as ArrowBackIcon,
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-// import theme from '@/lib/theme';
-// Reimport with explicit path
-import EmailVerificationModal from '@/components/auth/EmailVerificationModal';
+import PasswordResetModal from '@/components/auth/PasswordResetModal';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
-  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const theme = useTheme();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError(null);
+    setSuccess(null);
+    setIsLoading(true);
+    
     console.log('Forgot password submitted for:', email);
-    // Show verification modal instead of navigation
     try {
-      const response = await fetch('/api/auth/verify-email', {
+      const response = await fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,16 +47,18 @@ export default function ForgotPasswordPage() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Verification code request successful:', data.message);
-        alert('Verification code sent to your email.');
-        setShowVerificationModal(true);
+        console.log('Reset code request successful:', data.message);
+        setSuccess('Reset code sent to your email.');
+        setShowResetModal(true);
       } else {
-        console.error('Verification code request failed:', data.message);
-        alert(data.message || 'Failed to send verification code.');
+        console.error('Reset code request failed:', data.message);
+        setError(data.message || 'Failed to send reset code.');
       }
     } catch (error) {
-      console.error('Error during verification code request:', error);
-      alert('An unexpected error occurred. Please try again.');
+      console.error('Error during reset code request:', error);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,6 +118,18 @@ export default function ForgotPasswordPage() {
             Forgot Your Password
           </Typography>
           
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
+
+          {success && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {success}
+            </Alert>
+          )}
+          
           <Box 
             component="form" 
             onSubmit={handleSubmit}
@@ -155,6 +174,7 @@ export default function ForgotPasswordPage() {
               fullWidth
               variant="contained"
               color="primary"
+              disabled={isLoading || !email.trim()}
               sx={{
                 py: 1.5,
                 fontSize: '1rem',
@@ -164,7 +184,7 @@ export default function ForgotPasswordPage() {
                 mb: 3
               }}
             >
-              Send Verification Code
+              {isLoading ? 'Sending Reset Code...' : 'Send Reset Code'}
             </Button>
 
             <Box sx={{ textAlign: 'center' }}>
@@ -191,11 +211,11 @@ export default function ForgotPasswordPage() {
         </Paper>
       </Container>
 
-      {/* Email Verification Modal */}
-      <EmailVerificationModal 
-        open={showVerificationModal} 
+      {/* Password Reset Modal */}
+      <PasswordResetModal 
+        open={showResetModal} 
         email={email}
-        onClose={() => setShowVerificationModal(false)}
+        onClose={() => setShowResetModal(false)}
       />
     </Box>
   );
