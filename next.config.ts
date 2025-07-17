@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // output: 'export', enable this if and only try to deploy to Azure Static Web Apps
   images: { unoptimized: true},
   trailingSlash: true,
   experimental: {
