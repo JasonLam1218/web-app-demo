@@ -1,3 +1,10 @@
+// Password Reset API Endpoint
+// This endpoint handles sending a 6-digit reset code to a user's email and verifying the code to allow password reset.
+// Used when a user forgets their password. Does NOT verify email ownership.
+
+// POST: Send reset code to email
+// PATCH: Verify code and update password in DB, then log in user
+
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';

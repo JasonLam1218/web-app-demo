@@ -1,3 +1,10 @@
+// Email Verification API Endpoint
+// This endpoint handles sending a 6-digit verification code to a user's email and verifying the code to confirm email ownership.
+// Used after registration or when changing email. Does NOT reset password.
+
+// POST: Send verification code to email
+// PATCH: Verify code and set isEmailVerified to true
+
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
