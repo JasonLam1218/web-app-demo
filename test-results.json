@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Quick Math",
+    "prompt": "What is 15+27?",
+    "category": "simple",
+    "success": false,
+    "error": "fetch is not a function"
+  },
+  {
+    "name": "Short Explanation",
+    "prompt": "Define AI in one sentence.",
+    "category": "simple",
+    "success": false,
+    "error": "fetch is not a function"
+  },
+  {
+    "name": "Medium Analysis",
+    "prompt": "Pros and cons of renewable energy.",
+    "category": "medium",
+    "success": false,
+    "error": "fetch is not a function"
+  },
+  {
+    "name": "Code Generation",
+    "prompt": "Python factorial function.",
+    "category": "medium",
+    "success": false,
+    "error": "fetch is not a function"
+  },
+  {
+    "name": "Long Essay",
+    "prompt": "Impact of social media.",
+    "category": "complex",
+    "success": false,
+    "error": "fetch is not a function"
+  },
+  {
+    "name": "Technical Deep Dive",
+    "prompt": "Explain quantum computing principles and applications.",
+    "category": "complex",
+    "success": false,
+    "error": "fetch is not a function"
+  }
+]

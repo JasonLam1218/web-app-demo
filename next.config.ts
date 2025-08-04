@@ -17,7 +17,7 @@ const nextConfig = {
   },
   
   // URL configuration
-  trailingSlash: true, // Adds trailing slashes to URLs for better compatibility with static hosting
+  trailingSlash: false, // Adds trailing slashes to URLs for better compatibility with static hosting
   
   // Experimental features configuration
   experimental: {
