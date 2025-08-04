@@ -1,3 +1,11 @@
+/**
+ * EduAI Login Page Component
+ * 
+ * This is the main authentication component that handles both user login and registration.
+ * It provides a unified interface for users to sign in or create new accounts with
+ * email/password authentication, Google OAuth support, and password reset functionality.
+ */
+
 'use client';
 import React, { useState } from 'react';
 import {
@@ -27,21 +35,38 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
+/**
+ * EduAILoginPage Component
+ * 
+ * Main authentication component that provides login and registration functionality.
+ * Features include email/password authentication, Google OAuth, password visibility toggle,
+ * form validation, and responsive design.
+ */
 export default function EduAILoginPage() {
   const theme = useTheme();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+  
+  // Component state management
+  const [isLoading, setIsLoading] = useState(false); // Loading state for form submission
+  const [error, setError] = useState<string | null>(null); // Error message state
+  const [success, setSuccess] = useState<string | null>(null); // Success message state
+  const [isLogin, setIsLogin] = useState(true); // Toggle between login and registration modes
+  const [showPassword, setShowPassword] = useState(false); // Password visibility toggle
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     fullName: '',
-    agreeToTerms: false,
+    agreeToTerms: false, // Terms and conditions agreement
   });
 
+  /**
+   * Handle input field changes
+   * 
+   * Updates form data state when user types in input fields.
+   * 
+   * @param field - The field name to update
+   * @returns Event handler function
+   */
   const handleInputChange = (field: string) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -51,6 +76,14 @@ export default function EduAILoginPage() {
     }));
   };
 
+  /**
+   * Handle form submission
+   * 
+   * Processes login or registration based on current mode.
+   * Validates form data and makes API calls to authentication endpoints.
+   * 
+   * @param event - Form submission event
+   */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
@@ -58,6 +91,7 @@ export default function EduAILoginPage() {
     setSuccess(null);
 
     if (isLogin) {
+      // Handle login flow
       console.log('Login submitted');
       try {
         const response = await fetch(`/api/auth/login`, {
@@ -95,8 +129,8 @@ export default function EduAILoginPage() {
         setIsLoading(false);
       }
     } else {
+      // Handle registration flow
       console.log('Sign up submitted');
-      // Add your sign up logic here
       try {
         const response = await fetch('/api/auth/register', {
           method: 'POST',
@@ -113,16 +147,14 @@ export default function EduAILoginPage() {
 
         if (response.ok) {
           console.log('Registration successful:', data);
-          // Optionally, redirect to a verification page or login page
           setError(null);
           setSuccess("Registration successful!");
-          // router.push('/login'); // Redirect to login after successful signup
+          // Redirect to login after successful registration
           setTimeout(() => {
             router.push('/login');
           }, 1000); 
         } else {
           console.error('Registration failed:', data.message);
-          // Show error message to the user
           setError(data.message || 'Registration failed.');
           setSuccess(null);
         }
@@ -135,19 +167,40 @@ export default function EduAILoginPage() {
     }
   };
 
+  /**
+   * Handle Google OAuth authentication
+   * 
+   * Placeholder for Google OAuth integration.
+   * Currently logs the action but doesn't implement actual OAuth flow.
+   */
   const handleGoogleAuth = () => {
     console.log(`Google ${isLogin ? 'Sign In' : 'Sign Up'} clicked`);
     // Add Google Auth logic here
   };
 
+  /**
+   * Toggle password visibility
+   * 
+   * Switches between showing and hiding the password field.
+   */
   const togglePasswordVisibility = () => {
     setShowPassword(prev => !prev);
   };
 
+  /**
+   * Switch between login and registration modes
+   * 
+   * Toggles the form between login and registration interfaces.
+   */
   const switchMode = () => {
     setIsLogin(prev => !prev);
   };
 
+  /**
+   * Navigate to forgot password page
+   * 
+   * Redirects user to the password reset flow.
+   */
   const handleForgotPassword = () => {
     router.push('/forgot-password');
   };
@@ -155,7 +208,7 @@ export default function EduAILoginPage() {
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex' }}>
       <Grid container sx={{ minHeight: '100vh' }}>
-        {/* Left Panel - Branding */}
+        {/* Left Panel - Branding and Marketing Content */}
         <Grid
           item
           xs={12}
@@ -171,6 +224,7 @@ export default function EduAILoginPage() {
           }}
         >
           <Box sx={{ textAlign: 'center', maxWidth: 400, color: theme.palette.primary.dark }}>
+            {/* Application Logo/Title */}
             <Typography
               variant="h1"
               sx={{
@@ -184,6 +238,7 @@ export default function EduAILoginPage() {
               EduAI
             </Typography>
             
+            {/* Dynamic Subtitle based on mode */}
             <Typography
               variant="h4"
               sx={{
@@ -198,6 +253,7 @@ export default function EduAILoginPage() {
               {isLogin ? 'Unlock Your Learning Potential' : 'Transform Your Learning Journey with AI'}
             </Typography>
             
+            {/* Dynamic Description based on mode */}
             <Typography
               variant="body1"
               sx={{
@@ -214,7 +270,7 @@ export default function EduAILoginPage() {
           </Box>
         </Grid>
 
-        {/* Right Panel - Login/Signup Form */}
+        {/* Right Panel - Authentication Form */}
         <Grid
           item
           xs={12}
@@ -238,6 +294,7 @@ export default function EduAILoginPage() {
               borderRadius: 2,
             }}
           >
+            {/* Form Header */}
             <Box sx={{ textAlign: 'left', mb: 4 }}>
               <Typography 
                 variant="h4" 
@@ -249,6 +306,8 @@ export default function EduAILoginPage() {
               >
                 {isLogin ? 'Welcome Back' : 'Create Your Account'}
               </Typography>
+              
+              {/* Registration subtitle */}
               {!isLogin && (
                 <Typography 
                   variant="body1" 
@@ -260,12 +319,14 @@ export default function EduAILoginPage() {
                 </Typography>
               )}
 
+              {/* Error Alert */}
               {error && (
                   <Alert severity="error" sx={{ mb: 1, mt: 2}}>
                     {error}
                   </Alert>
                 )}
 
+              {/* Success Alert */}
                 {success && (
                   <Alert severity="success" sx={{ mb: 1, mt: 2 }}>
                     {success}
@@ -273,7 +334,7 @@ export default function EduAILoginPage() {
                 )}
             </Box>
 
-            {/* Google Sign In/Up Button */}
+            {/* Google OAuth Button */}
             <Button
               fullWidth
               variant="outlined"
@@ -309,9 +370,9 @@ export default function EduAILoginPage() {
               <Divider sx={{ flex: 1 }} />
             </Box>
 
-            {/* Login/Signup Form */}
+            {/* Authentication Form */}
             <Box component="form" onSubmit={handleSubmit}>
-              {/* Full Name - Only for Sign Up */}
+              {/* Full Name Field - Only for Registration */}
               {!isLogin && (
                 <Box sx={{ mb: 2 }}>
                   <Typography
@@ -348,6 +409,7 @@ export default function EduAILoginPage() {
                 </Box>
               )}
 
+              {/* Email Field */}
               <Box sx={{ mb: 2 }}>
                 <Typography
                   variant="body2"
@@ -382,6 +444,7 @@ export default function EduAILoginPage() {
                 />
               </Box>
 
+              {/* Password Field */}
               <Box sx={{ mb: isLogin ? 3 : 2 }}>
                 <Typography
                   variant="body2"
@@ -424,6 +487,8 @@ export default function EduAILoginPage() {
                     }
                   }}
                  />
+                 
+                 {/* Password requirements hint for registration */}
                  {!isLogin && (
                    <Typography
                      variant="caption"
@@ -438,7 +503,7 @@ export default function EduAILoginPage() {
                  )}
                </Box>
  
-               {/* Terms and Conditions - Only for Sign Up */}
+               {/* Terms and Conditions - Only for Registration */}
                {!isLogin && (
                  <Box sx={{ mb: 3 }}>
                    <FormControlLabel
@@ -479,11 +544,11 @@ export default function EduAILoginPage() {
                  </Box>
                )}
  
+               {/* Submit Button */}
                <Button
                  type="submit"
                  fullWidth
                  variant="contained"
-                 // disable button if loading or not agree to terms
                  disabled={
                   isLoading || 
                   !formData.email.trim() || 
@@ -499,7 +564,6 @@ export default function EduAILoginPage() {
                    borderRadius: 2,
                  }}
                >
-                 {/* {isLogin ? 'Log In' : 'Create Account'} */}
                  {isLoading ? (
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       <CircularProgress size={20} color="inherit" />
@@ -510,7 +574,7 @@ export default function EduAILoginPage() {
                   )}
                </Button>
  
-               {/* Forgot Password - Only for Login */}
+               {/* Forgot Password Link - Only for Login */}
                {isLogin && (
                  <Box sx={{ textAlign: 'center', mb: 3 }}>
                    <Link
@@ -530,6 +594,7 @@ export default function EduAILoginPage() {
                  </Box>
                )}
  
+               {/* Mode Switch Link */}
                <Box sx={{ textAlign: 'center' }}>
                  <Typography 
                    variant="body2" 

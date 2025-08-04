@@ -1,27 +1,69 @@
 {
+  // TypeScript compiler options for the EduAI application
   "compilerOptions": {
+    // Target ECMAScript version for compilation
     "target": "ES2017",
+    
+    // Library definitions to include
     "lib": ["dom", "dom.iterable", "esnext"],
+    
+    // Allow JavaScript files to be compiled
     "allowJs": true,
+    
+    // Skip type checking of declaration files for faster builds
     "skipLibCheck": true,
+    
+    // Enable all strict type checking options
     "strict": true,
+    
+    // Don't emit output files (Next.js handles this)
     "noEmit": true,
+    
+    // Enable ES module interop for CommonJS modules
     "esModuleInterop": true,
+    
+    // Module system to use
     "module": "esnext",
+    
+    // Module resolution strategy
     "moduleResolution": "bundler",
+    
+    // Allow importing JSON files as modules
     "resolveJsonModule": true,
+    
+    // Ensure each file is treated as a separate module
     "isolatedModules": true,
+    
+    // Preserve JSX syntax for Next.js processing
     "jsx": "preserve",
+    
+    // Enable incremental compilation for faster rebuilds
     "incremental": true,
+    
+    // Next.js TypeScript plugin for enhanced type checking
     "plugins": [
       {
         "name": "next"
       }
     ],
+    
+    // Path mapping for cleaner imports
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"] // Map @/ to src/ directory for absolute imports
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "api"]
+  
+  // Files to include in compilation
+  "include": [
+    "next-env.d.ts", // Next.js type definitions
+    "**/*.ts", // All TypeScript files
+    "**/*.tsx", // All TypeScript React files
+    ".next/types/**/*.ts" // Next.js generated types
+  ],
+  
+  // Files to exclude from compilation
+  "exclude": [
+    "node_modules", // Dependencies
+    "api" // Azure Functions API directory (separate TypeScript config)
+  ]
 }
