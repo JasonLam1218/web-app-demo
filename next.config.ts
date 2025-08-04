@@ -22,6 +22,7 @@ const nextConfig = {
   // Experimental features configuration
   experimental: {
     // Remove appDir if present - not needed in Next.js 15 as App Router is now stable
+    serverComponentsExternalPackages: ['@google/generative-ai']
   },
   
   // Compiler configuration
